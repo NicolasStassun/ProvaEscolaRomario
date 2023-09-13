@@ -29,6 +29,7 @@ public class Main {
 
         switch (opcao) {
             case 1:
+                opcao = 0;
                 int opcaoCadastro;
                 do {
                     opcaoCadastro = cadastrarUsuario();
@@ -53,7 +54,7 @@ public class Main {
 
     public static int cadastrarUsuario() {
         int opcao = 0;
-        do {
+        while (opcao != 4){
             System.out.println("""
                     1 - Aluno
                     2 - Professor
@@ -61,8 +62,8 @@ public class Main {
                     4 - Sair
                     """);
 
-            opcao = sc.nextInt();
 
+            opcao = sc.nextInt();
             switch (opcao) {
                 case 1:
                     System.out.println("Cadastro de aluno");
@@ -73,7 +74,7 @@ public class Main {
                     System.out.println("Informe seu endereço: ");
                     String endereco = sc.next();
                     Aluno aluno = new Aluno(nome, idade, endereco);
-                    return opcao;
+                    break;
                 case 2:
                     System.out.println("Cadastro de Professor");
                     System.out.println("Informe seu nome: ");
@@ -83,7 +84,7 @@ public class Main {
                     System.out.println("Informe seu endereço: ");
                     String enderecoProfessor = sc.next();
                     Professor professor = new Professor(nomeProfessor, idadeProfessor, enderecoProfessor);
-                    return opcao;
+                    break;
                 case 3:
                     System.out.println("Cadastro de Secretário");
                     System.out.println("Informe seu nome: ");
@@ -93,36 +94,60 @@ public class Main {
                     System.out.println("Informe seu endereço: ");
                     String enderecoSecretario = sc.next();
                     Secretario secretario = new Secretario(nomeSecretario, idadeSecretario, enderecoSecretario);
-                    return opcao;
+                    break;
                 case 4:
-                    System.out.println("Cadastro cancelado...");
-                    return opcao;
+                    System.out.println("Saindo...");
+                    opcao = 4;
+                    return 4;
                 default:
                     System.out.println("Opção inválida");
-                    return opcao;
+                    return 4;
             }
-        } while (opcao == 4);
-
+        };
+        return 4;
     }
 
     public static boolean login() {
         boolean logado = false;
+
+        int opcao;
         do {
-            System.out.println("Login");
-            System.out.println("Informe seu nome para entrar: ");
-            String nome = sc.next();
-            for (Usuario usuario :
-                    Usuario.usuarios) {
-                if (usuario.getNome().equals(nome)) {
-                    System.out.println("Usuário encontrado");
+            System.out.println("""
+                    1 - Logar
+                    2 - Sair
+                    """);
+
+            opcao = sc.nextInt();
+            switch (opcao) {
+                case 1:
+                    do {
+                        System.out.println("Informe seu nome para entrar: ");
+                        String nome = sc.next();
+                        for (Usuario usuario :
+                                Usuario.usuarios) {
+                            if (usuario.getNome().equals(nome)) {
+                                System.out.println("Usuário encontrado");
+                                logado = false;
+                                usuarioLogado = usuario;
+                                menuDoUsuario(usuarioLogado);
+                            }
+                        }
+                        System.out.println("Usuário não encontrado");
+                        logado = true;
+                    } while (!logado);
+                    break;
+                case 2:
+                    System.out.println("Saindo...");
                     logado = true;
-                    usuarioLogado = usuario;
-                    menuDoUsuario(usuarioLogado);
-                }
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    logado = true;
+                    break;
             }
-            System.out.println("Usuário não encontrado");
-            return logado;
-        } while (logado == false);
+        }while (opcao != 2);
+
+        return false;
     }
 
     public static void cadastraProva(Turma turma, Professor professor) {
