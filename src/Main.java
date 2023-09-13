@@ -299,7 +299,13 @@ public class Main {
                             }
                             System.out.println("Informe o código da disciplina: ");
                             int codigoDisciplina = sc.nextInt();
-                            Disciplina disciplinaEsolhida = Disciplina.disciplinas.get(codigoDisciplina);
+                            Disciplina disciplinaEsolhida = null;
+                            for (Disciplina disciplina :
+                                    Disciplina.disciplinas) {
+                                if (disciplina.getCodigo() == codigoDisciplina) {
+                                    disciplinaEsolhida = disciplina;
+                                }
+                            }
                             for (Usuario usuario1 :
                                     Usuario.usuarios) {
                                 if (usuario1 instanceof Professor) {
